@@ -3,6 +3,8 @@ import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Home from "./view/Home";
 import Details from "./view/Details";
 import NotFound from "./view/NotFound";
+import AjoutFilm from "./view/AjoutFilm";
+import ModificationPage from "./view/ModificationPage";
 
 const App = () => {
   return (
@@ -10,9 +12,9 @@ const App = () => {
        <BrowserRouter>
         <Switch>
           <Route path="/" exact component={Home}/>
-          {/* <Route path="/liste-evenements" exact component={List}/> */}
+          <Route path="/ajout-film" exact component={AjoutFilm}/>
           <Route path="/details" exact component={Details}/>
-          {/* <Route path="/favoris" exact component={Favoris}/>  */}
+          <Route path="/modificationPage" exact component={ModificationPage}/> 
           <Route component={NotFound}/>
         </Switch>
       </BrowserRouter>

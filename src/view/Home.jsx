@@ -15,15 +15,35 @@ const Home = () => {
     },[movies]);
     
         return (
-            <>
+            <div>
                 <Logo/>
                 <Navigation/>
                 <hr className="menu"/>
-                <div>
-                    {movies.map((film, index) => <ListMovies film={film} key={index}/>)}
+                <form>
+                    <label className="form-control">
+                        <input type="checkbox" name="checkbox" />
+                        Titre
+                    </label>
+
+                    <label className="form-control">
+                        <input type="checkbox" name="checkbox" />
+                        Date de sortie
+                    </label>
+
+                    <label className="form-control">
+                        <input type="checkbox" name="checkbox" />
+                        Catégorie
+                    </label>
+                </form>
+                <div className="menu">
+                    <h1 className="menuTitle">Voici la liste des films de la bibliothèque</h1>
+                        <div className="menuList">
+                            {movies.map((film, index) => <ListMovies film={film} key={index} id={film.id}/>)}
+                        </div>
                 </div>
+                
             
-            </>
+            </div>
             
         );
     };

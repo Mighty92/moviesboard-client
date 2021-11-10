@@ -1,3 +1,28 @@
+.menu {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .menu .menuTitle {
+    font-family: cursive;
+    font-size: 60px;
+    text-align: center;
+  }
+  
+  .menuList {
+    width: 70%;
+    height: auto;
+    display: grid;
+    margin: auto;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center;
+    justify-content: space-evenly;
+  }
+
 .menuItem {
     border-radius: 15px;
     width: 90%;
@@ -97,12 +122,11 @@
   
     //   Button
       .styled {
-        margin-top: 20px;
+        margin-top: auto;
         border: 0;
         line-height: 2.5;
         padding: 0 20px;
         font-size: 1rem;
-        text-align: center;
         color: #fff;
         text-shadow: 1px 1px 1px #000;
         border-radius: 10px;
@@ -123,6 +147,71 @@
         box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
                     inset 2px 2px 3px rgba(0, 0, 0, .6);
     }
+
+    // checkbox
+ form {
+  display: flex;
+  place-content: center;
+  width: 100%;
+  max-width: 100%;
+  justify-content: space-around;
+}
+
+form .title{
+    margin-top: 50px;
+}
+
+.form-control {
+  font-family: system-ui, sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 1.1;
+  display: flex;
+  justify-content: space-around;
+  grid-template-columns: 1em auto;
+  gap: 0.5em;
+}
+
+
+input[type="checkbox"] {
+  /* Add if not using autoprefixer */
+  -webkit-appearance: none;
+  /* Remove most all native input styles */
+  appearance: none;
+  /* For iOS < 15 */
+  background-color: var(--form-background);
+  /* Not removed via appearance */
+  margin: 0;
+
+  font: inherit;
+  color: currentColor;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid currentColor;
+  border-radius: 0.15em;
+  transform: translateY(-0.075em);
+
+  display: flex;
+  place-content: center;
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  transform: scale(0);
+  transform-origin: bottom left;
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--form-control-color);
+  /* Windows High Contrast Mode */
+  background-color: CanvasText;
+}
+
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
   
   @media only screen and (max-width: 1300px) {
     .menuList {
