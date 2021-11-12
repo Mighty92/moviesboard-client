@@ -10,10 +10,13 @@ $color-4: rgb(32, 35, 42);
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  width: 90%;
+  max-width: 100%;
 }
 body {
   margin: 0.4rem auto;
-  max-width: 1296px;
+  width: 120%;
+  max-width: 100%;
   font-family: $font-1;
   color: $color-3;
   background-color: $color-2;

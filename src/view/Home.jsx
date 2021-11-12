@@ -6,6 +6,20 @@ import ListMovies from '../components/ListMovies';
 
 const Home = () => {
 
+    const [search, setSearch] = useState("");
+
+
+    const setSearchValue = (e) =>{
+        e.preventDefault();
+        setSearch(e.target.value);
+      }
+
+      const handleSubmit = (e)=>{
+        e.preventDefault();
+        result();
+    }
+  
+
     const [movies, setMovies] = useState([]);
     const url = 'http://localhost:3001/movies';
     useEffect(()=>{
@@ -13,27 +27,31 @@ const Home = () => {
         setMovies(res.data);
         })
     },[movies]);
+
+    const result =() =>{}
     
         return (
             <div>
                 <Logo/>
                 <Navigation/>
                 <hr className="menu"/>
-                <form>
+                <form onSubmit={(e) => handleSubmit(e)}>
                     <label className="form-control">
-                        <input type="checkbox" name="checkbox" />
-                        Titre
+                        <input onInput={(e)=>setSearchValue(e)}
+                            type="text" 
+                            placeholder="Recherchez vos films"/> 
                     </label>
 
-                    <label className="form-control">
-                        <input type="checkbox" name="checkbox" />
-                        Date de sortie
-                    </label>
-
-                    <label className="form-control">
-                        <input type="checkbox" name="checkbox" />
-                        Catégorie
-                    </label>
+                    <label className="form-control" htlmlFor="ice-cream-choice">Filtrez par</label>
+                        <input list="ice-cream-flavors" id="ice-cream-choice" name="ice-cream-choice" />
+                            <datalist id="ice-cream-flavors">
+                                <option value="Titre"/>
+                                <option value="Catégorie"/>
+                                <option value="Date de sortie"/>
+                            </datalist>
+                            <input
+                                 type="submit"
+                                value="rechercher"/>
                 </form>
                 <div className="menu">
                     <h1 className="menuTitle">Voici la liste des films de la bibliothèque</h1>
@@ -47,5 +65,5 @@ const Home = () => {
             
         );
     };
-    
+
     export default Home;
