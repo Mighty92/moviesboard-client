@@ -29,14 +29,14 @@ const Details = () => {
             <Navigation/>
             <hr className="menu"/>
             <div className="detail">
-                <h1> Détails </h1>
+                <h1 className="pdetail"> Détails </h1>
                 <h2>Voici le détail du film</h2>
             </div>
             <div className="conteneur-flexible">
                 {detailFilm &&
                 <>
                     <div className="element-flexible">
-                        <img src={detailFilm.backdrop} className="detail-img1"/>
+                    <img src={detailFilm.poster} className="detail-img"/>
                     </div>
                     <div className="element-flexible">
                         <h3 className="title">{detailFilm.title}</h3>
@@ -63,15 +63,18 @@ const Details = () => {
                     </div>
                     <div className="element-flexible">
                         <h3 className="text">{detailFilm.description}</h3>
-                        <img src={detailFilm.poster} className="detail-img"/>
-                        
+                        <img src={detailFilm.backdrop} className="detail-img1"/>
+
                         <button className="favorite styled">Modifier</button>
                         <DeleteFilm id={detailFilm.id}/>
+                        
                     </div>
+                    
                 </>
                 }
 
             </div>
+            
         </div>
     )
 }

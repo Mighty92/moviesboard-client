@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import DeleteFilm from './DeleteFilm';
 import axios from 'axios';
+import LikeButton from '../services/LikeButton';
 
 const ListMovies = (props) => {
+    const {film, id} = props
 
     const [isEditing, setIsEditing] = useState(false);
     const [editContent, setEditContent] = useState("");
@@ -21,9 +23,6 @@ const ListMovies = (props) => {
 
         })
     };
-
-    const {film} = props
-    const id = film.id
 
     useEffect(()=>{
         console.log(film)
@@ -61,6 +60,9 @@ const ListMovies = (props) => {
                             <DeleteFilm id={film.id}/>
                         </div>
                     </li>
+                    {/* <div className="button">
+                        <LikeButton id={id} />
+                    </div> */}
             </div>
         </>
     )

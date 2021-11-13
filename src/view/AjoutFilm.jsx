@@ -1,127 +1,95 @@
-import React from 'react';
-import Logo from '../components/Logo';
-import Navigation from '../components/Navigation';
-import { useForm } from 'react-hook-form';
+import React, {useEffect, useRef, useState} from 'react';
+import serviceMovies from "../services/serviceMovies";
+import Acteur from "../components/Form/Acteur";
+import FilmSimilaire from "../components/Form/FilmSimilaire";
+import Logo from "../components/Logo";
+import Navigation from "../components/Navigation";
 
+const AjoutFilm = ({movie}) => {
 
-const AjoutFilm = (props) => {
+    const [movieData, setMovieData] = useState("")
+    const [actorsData, setActorsData] = useState([])
+    const [similarMovie, setSimilarMovie] = useState([])
 
-    const defaultValues = props.person || {};
+    const title = useRef()
+    const release_date = useRef()
+    const categoriesArray = useRef()
+    const description = useRef()
+    const poster = useRef()
+    const backdrop = useRef()
 
-    const {
-      register,
-      formState: { errors },
-      handleSubmit,
-    } = useForm({
-      defaultValues,
-    });
-  
-    function onSubmit(data) {
-      console.log('Le formulaire a été validé avec succès !', data);
+    useEffect(() => {
+        setMovieData(movie)
+    }, [movie])
+
+    //Ajoute un film dans la DB
+    function sendForm(e) {
+        const categories = categoriesArray.current.value.split(",")
+
+        //Création d'un objet avec les données du film
+        const data = {
+            title: title.current.value,
+            release_date: release_date.current.value,
+            categories: categories,
+            description: description.current.value,
+            poster: poster.current.value,
+            backdrop: backdrop.current.value,
+            actors: actorsData,
+            similar_movies: similarMovie
+        }
+
+        serviceMovies.add(data)
+            .then((data) => console.log(data))
+            .catch((err) => console.log(err))
+
+        e.preventDefault()
     }
-  
-    const isEditForm = Object.keys(defaultValues).length > 0;
-  
+
+    //Récupère les données du components ActorsForm et enregistre dans actorData
+    function getActorsData(data) {
+        setActorsData(data)
+    }
+
+    //Récupère les données du components SimilarMovieForm et enregistre dans similarMovie
+    function getSimilarMovieData(data) {
+        setSimilarMovie(data)
+    }
 
     return (
         <>
-            <Logo/>
-            <Navigation/>
-            <hr className="menu"/>
-                <h1 className="menuTitle">Ajoutez votre film favoris</h1>
-                    <div class="form-container">
-                        <form class="register-form" onSubmit={handleSubmit(onSubmit)} noValidate >
-                            {/* Uncomment the next line to show the success message */}
-                            {/* <div class="success-message">Success! Thank you for registering</div> */}
-                            <Ajout
-                type='text'
-                label='Titre'
-                placeholder='Titre'
-                register={{ ...register('title', { required: true }) }}
-            >
-                {errors.title?.type === 'required' && <p className='error-red'>Ce champs est requis !</p>}
-            </Ajout>
-            <div>
-            <select name="categories " className="categories" defaultValue='' {...register('category', { required: true })}>
-                <option value="">Categories</option>
-                <option value="Action">Action</option>
-                <option value="Aventure">Aventure</option>
-                <option value="science-fiction">Science-Fiction</option>
-                <option value="Drame">Drame</option>
-                <option value="Horreur">Horreur</option>
-                <option value="Fantastique">Fantastique</option>
-            </select>
-            <div>
-                {errors.category?.type === 'required' && <p className='error-red'>Ce champs est requis !</p>}
+        <Logo/>
+        <Navigation/>
+        <hr className="menu"/>
+        <form id={"form"}>
+            <h1 className="menuTitle">Ajoutez votre film favoris</h1>
+            <div class="form-container">
+                <label>Titre</label>
+                <input type="text"  defaultValue={movieData && movieData.title} ref={title}/>
+                <label>Date de sortie</label>
+                <input type="date"  defaultValue={movieData && movieData.release_date}
+                    ref={release_date}/>
+                <label className="categories">Catégories</label>
+                <input type="text" placeholder={"action, aventure, comédie, ..."} ref={categoriesArray}/>
+                <label >Description</label>
+                <input type="textarea"  defaultValue={movieData && movieData.overview}
+                   ref={description}/>
+                <label>Affiche</label>
+                <input type="url" defaultValue={movieData && movieData.poster_path} ref={poster}/>
+                <label>Backdrop</label>
+                <input type="textarea"  defaultValue={movieData && movieData.overview}
+                    ref={description}/>
+
+                <label>Acteurs:</label>
+                <Acteur actorsData={getActorsData}/>
+
+                <label htmlFor="similarMovies">Films similaires:</label>
+                <FilmSimilaire similarMovieData={getSimilarMovieData}/>
+
+                <button onClick={sendForm} className='favorite styled'>Valider</button>
             </div>
-            </div>
-            
-            <Ajout
-                type='date'
-                label='Date de sortie'
-                placeholder=''
-                register={{ ...register('release_date', { required: true }) }}
-            >
-                {errors.release_date?.type === 'required' && <p className='error-red'>Ce champs est requis !</p>}
-            </Ajout>
-            <div>
-                <div>
-                    <label>Description:</label>
-                    <textarea type="text" name="Description" placeholder='Description' defaultValue='' {...register('description', { required: true })}/>
-                </div>
-                <div className='mt-1'>
-                    {errors.description?.type === 'required' && <p className='text-red-500'>Ce champs est requis !</p>}
-                </div>
-            </div>
-            <Ajout 
-                type='text' 
-                label='Acteur' 
-                placeholder='ecrivez-ici' 
-                register={{ ...register('actor', { required: true }) }}>
-                    {errors.actor?.type === 'required' && <p className='error-red'>Ce champs est requis !</p>}
-            </Ajout>
-
-            <Ajout
-                type='text'
-                label='Film similaire'
-                placeholder='Autre films ...'
-                register={{ ...register('similar_movies', { required: true }) }}
-            >
-                {errors.similar_movies?.type === 'required' && <p className='error-red'>Ce champs est requis !</p>}
-            </Ajout>
-
-            <Ajout
-                type='url'
-                label='lien du poster'
-                placeholder='https://'
-                register={{ ...register('poster') }}
-            ></Ajout>
-
-            <button type='submit' className='favorite styled'>
-                {isEditForm ? 'Modifier ce film' : 'Ajouter ce film'}
-            </button>
-            </form>
-            </div>
-
-            
-        </>
-    )
-}
-
-const Ajout = ({ label, type, placeholder, register, children }) => {
-    return (
-      <div >
-        <label
-          htmlFor={label}    
-        >
-          {label} :
-        </label>
-        <div>
-          <input type={type} id={label} required placeholder={placeholder} {...register} />
-          <div>{children}</div>
-        </div>
-      </div>
+        </form>
+    </>
     );
-  };
+};
 
 export default AjoutFilm

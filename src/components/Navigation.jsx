@@ -14,6 +14,9 @@ const Navigation = () => {
             <NavLink exact to="/modificationPage" activeClassName="nav-active">
                 Page de modification
             </NavLink>
+            {/* <NavLink exact to="/favoris" activeClassName="nav-active">
+                Favoris
+            </NavLink> */}
 
         </div>
     );

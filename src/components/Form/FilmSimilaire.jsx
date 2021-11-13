@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import produce from "immer";
+import { IoIosAddCircle } from "react-icons/io";
 
 const FilmSimilaire = ({similarMovieData}) => {
     const [similarMovie, setSimilarMovie] = useState([{
@@ -47,7 +48,7 @@ const FilmSimilaire = ({similarMovieData}) => {
                     }}/>
                 </div>
             )}
-            <button onClick={newSimilarMovie}>Ajouter +</button>
+            <IoIosAddCircle onClick={newSimilarMovie}/>
         </div>
     );
 };
