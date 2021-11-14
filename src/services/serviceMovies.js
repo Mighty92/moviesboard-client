@@ -4,7 +4,7 @@ const ServiceMovies = {
     //Affiche tous les films de la DB
     showAllMovies() {
         return axios
-            .get('http://localhost:3000/movies')
+            .get('http://localhost:3001/movies')
             .then((response) => response.data)
             .catch((err) => console.log(err))
     },
@@ -12,14 +12,14 @@ const ServiceMovies = {
     //Affiche uniquement le film sélectionné avec son id
     show(id) {
         return axios
-            .get(`http://localhost:3000/movies/${id}`)
+            .get(`http://localhost:3001/movies/${id}`)
             .then((response) => response.data)
             .catch((err) => console.log(err))
     },
     //Ajoute un film dans la DB
     add(movie) {
         return axios
-            .post('http://localhost:3000/movies', {
+            .post('http://localhost:3001/movies', {
                 title: movie.title,
                 release_date: movie.release_date,
                 categories: movie.categories,

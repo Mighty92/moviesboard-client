@@ -45,18 +45,12 @@ const ListMovies = (props) => {
                             <h4 className='text'>{film.release_date}</h4>
                             <h4 className='text'>{film.description}</h4>
                         </form>
-                        {isEditing ? (
-                            <form onChange={(e) => setEditContent(e.target.value)} 
-                            autoFocus defaultValue={editContent ? editContent : film.film}></form>
-                        ) : (
-                        <p>{editContent ? editContent :film.film}</p>
-                        )}
-                        <div className="btn-container">
-                            {isEditing ? (
-                                <button className="favorite styled" onClick={handleEdit}>valider</button>
-                            ):(
-                                <button className="favorite styled" onClick={()=> setIsEditing(true)}>Modifier</button>
-                            )}                        
+                        <div>
+
+                                <Link to={"/modificationPage/" + film.id} >
+                                <button className="favorite styled">Modifier</button>
+                                </Link>
+                                              
                             <DeleteFilm id={film.id}/>
                         </div>
                     </li>
@@ -64,6 +58,8 @@ const ListMovies = (props) => {
                         <LikeButton id={id} />
                     </div> */}
             </div>
+            
+
         </>
     )
 }

@@ -65,16 +65,14 @@ const Details = () => {
                         <h3 className="text">{detailFilm.description}</h3>
                         <img src={detailFilm.backdrop} className="detail-img1"/>
 
+                        
                         <button className="favorite styled">Modifier</button>
                         <DeleteFilm id={detailFilm.id}/>
-                        
                     </div>
-                    
                 </>
                 }
 
             </div>
-            
         </div>
     )
 }
