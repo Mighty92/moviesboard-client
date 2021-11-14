@@ -4,6 +4,8 @@ import { useLocation } from "react-router";
 import Logo from '../components/Logo';
 import Navigation from '../components/Navigation';
 import DeleteFilm from '../components/DeleteFilm';
+import { Link } from 'react-router-dom';
+
 
 
 const Details = () => {
@@ -45,7 +47,7 @@ const Details = () => {
 
 
                         <h3 className="text">
-                            Acteur: <br/>
+                            Acteurs: <br/>
                             {detailFilm.actors[0].name} / {detailFilm.actors[0].character},<br/>
                             {detailFilm.actors[1].name} / {detailFilm.actors[1].character},<br/>
                             {detailFilm.actors[2].name} / {detailFilm.actors[2].character},<br/>
@@ -55,7 +57,7 @@ const Details = () => {
                         </h3>
                         <br/>
                         <h3 className="text">
-                            Film Similaire: <br/>
+                            Film(s) Similaire(s): <br/>
                             {detailFilm.similar_movies[0].title} / {detailFilm.similar_movies[0].release_date},<br/>
                             {detailFilm.similar_movies[1].title} / {detailFilm.similar_movies[1].release_date},<br/>
                             {detailFilm.similar_movies[2].title} / {detailFilm.similar_movies[2].release_date}<br/>
@@ -65,8 +67,12 @@ const Details = () => {
                         <h3 className="text">{detailFilm.description}</h3>
                         <img src={detailFilm.backdrop} className="detail-img1"/>
 
-                        
-                        <button className="favorite styled">Modifier</button>
+                        <div className="mod">
+                        <Link to={"/modificationPage/" + id} >
+                            <button className="favorite styled">Modifier</button>
+                        </Link>
+                        </div>
+
                         <DeleteFilm id={detailFilm.id}/>
                     </div>
                 </>

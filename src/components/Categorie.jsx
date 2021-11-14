@@ -13,20 +13,20 @@ const checkedIcon = <CheckBoxIcon fontSize="small"/>;
 export default function CheckboxesTags({categoriesList, setCategories, actualCategories}) {
     const CustomField = styled(TextField)({
         '& label.Mui-focused': {
-            color: 'green',
+            color: 'black',
         },
         '& .MuiInput-underline:after': {
-            borderBottomColor: 'green',
+            borderBottomColor: 'yellow',
         },
         '& .MuiOutlinedInput-root': {
             '& fieldset': {
-                borderColor: 'red',
+                borderColor: 'black',
             },
             '&:hover fieldset': {
                 borderColor: 'yellow',
             },
             '&.Mui-focused fieldset': {
-                borderColor: 'green',
+                borderColor: 'yellow',
             },
         },
     });

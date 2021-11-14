@@ -54,7 +54,7 @@ const Home = () => {
                                 value="rechercher"/>
                 </form>
                 <div className="menu">
-                    <h1 className="menuTitle">Voici la liste des films de la bibliothèque</h1>
+                    <h1 className="menuTitle">Bibliothèque</h1>
                         <div className="menuList">
                             {movies.map((film, index) => <ListMovies film={film} key={index} id={film.id}/>)}
                         </div>

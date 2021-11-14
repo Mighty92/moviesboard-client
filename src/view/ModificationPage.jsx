@@ -1,4 +1,7 @@
 import React, {useEffect, useState} from 'react';
+import Logo from "../components/Logo";
+import Navigation from "../components/Navigation";
+
 import {uploadImage, getCategories, getMovieData, editMovie} from "../components/utils/crud";
 import Categorie from "../components/Categorie";
 import {useParams} from "react-router-dom";
@@ -67,7 +70,7 @@ const ModificationPage = () => {
         )
     }, [data])
 
-    // HANDLE ADD MOVIE SUBMIT
+    // Gérer la soumission du film ajouter
     const handleSubmit = (e) => {
         const newData = inputs
         e.preventDefault()
@@ -93,7 +96,7 @@ const ModificationPage = () => {
         window.location.href = "/"
     }
 
-// HANDLE ACTOR FORM
+// Gérer le formulaire acteur
     const handleActorSubmit = (e) => {
         const actorsValid = actorsList.filter(item => item.name === actorData.name)
         if (actorsValid.length) {
@@ -113,7 +116,7 @@ const ModificationPage = () => {
             alert("Veuillez remplir tout les champs")
         }
     }
-// HANDLE SIMILAR MOVIES FORM
+// Gérer le formulaie des films similaires
     const handleMovieSubmit = (e) => {
         const moviesValid = moviesList.filter(item => item.name === movieData.name)
         if (moviesValid.length) {
@@ -172,7 +175,7 @@ const ModificationPage = () => {
             }
         }
     }
-// HANDLE ACTOR FORM INPUTS CHANGE
+// Gérer la liste des acteurs
     const handleActorChange = (e) => {
         setActorData({
             ...actorData,
@@ -202,82 +205,65 @@ const ModificationPage = () => {
     }
 
     return (
-        <section className="movie-actions">
-            <h1 className="page-title">Modifier un film de ma liste</h1>
-            {/*ADD MOVIE FORM*/}
-            {data && actorsList && moviesList && <form className="add-form" onSubmit={handleSubmit}>
-                {/*TITLE + CATEGORIE INPUT GROUP*/}
-                <div className="input-group">
+        <>
+            <Logo/>
+            <Navigation/>
+            <hr className="menu"/>
+            <h1 className="page-title">Voici le film que vous souhaitez modifier</h1>
+            {data && actorsList && moviesList && 
+            <form onSubmit={handleSubmit}>
+                <div className="form-container">
                     <div className="input-wrapper">
-                        <label>Titre*</label>
-                        <input type="text"
-                               className="form-input"
-                               name="title"
-                               onChange={handleInputsChange}
-                               required={true}
-                               value={inputs.title}/>
+                    <label><h1>Titre</h1></label>
+                    <input type="text"
+                        className="form-input"
+                        name="title"
+                        onChange={handleInputsChange}
+                        required={true}
+                        value={inputs.title}
+                    />
                     </div>
                     <div className="input-wrapper">
-                        <label>Date de sortie</label>
+                    <label><h1>Date de sortie</h1></label>
                         <input type="date"
-                               required={true}
-                               name="release_date"
-                               onChange={handleInputsChange}
-                               value={inputs.release_date}/>
+                            required={true}
+                            name="release_date"
+                            onChange={handleInputsChange}
+                            value={inputs.release_date}
+                        />
                     </div>
-                </div>
-
-                <div className="input-wrapper">
-                    <div className="categorie-wrapper">
-
+                    <div className="input-wrapper">
+                        <Categorie categoriesList={allCategories} actualCategories={categoriesList}
+                                    setCategories={setCategoriesList}
+                        />
                     </div>
-                    <Categorie categoriesList={allCategories} actualCategories={categoriesList}
-                                    setCategories={setCategoriesList}/>
-                </div>
-
-                {/*DESCRIPTION INPUT*/}
-                <div className="input-wrapper">
-                    <label>Description*</label>
+                    <div className="input-wrapper">
+                    <label><h1>Description</h1></label>
                     <textarea className="home-textarea" name="description" id="" cols="30" rows="10"
-                              required={true}
-                              onChange={handleInputsChange}
-                              value={inputs.description}></textarea>
-                </div>
-
-                {/*POSTER + BACKDROP INPUT GROUP*/}
-                <div className="input-group">
-                    <div className="input-wrapper">
-                        <label>Affiche</label>
-                        <div className="upload-wrapper">
-                            {posterProgress === 100
-                                ? <>
-                                    <p className="image-name">{inputs.posterName.length
-                                        ? inputs.posterName
-                                        : "Aucune image"
-                                    }</p>
-                                    <label htmlFor="fileinput-poster" className="icon-addfile"></label>
-                                    <input
-                                        onChange={(e) => handleUpload(e, setPosterProgress, "poster")}
-                                        className="fileinput"
-                                        type="file"
-                                        name="image"
-                                        id="fileinput-poster"
-                                        accept=".jpg,.JPG,.jpeg,.JPEG,.png,.PNG,.gif,.GIF,.bmp,.BMP,.svg,.SVG,.webp,.WEBP"
-                                    />
-                                </>
-                                : "Chargement..."}
-                        </div>
+                        required={true}
+                        onChange={handleInputsChange}
+                        value={inputs.description}>
+                    </textarea>
                     </div>
-                    <div className="input-wrapper">
-                        <label>Arrière-plan</label>
+                    <div className="input-group">
+                    <label><h1>Affiche</h1></label>
+                        {posterProgress === 100
+                            ? <>
+                            <input
+                                onChange={(e) => handleUpload(e, setPosterProgress, "poster")}
+                                className="fileinput"
+                                type="file"
+                                name="image"
+                                id="fileinput-poster"
+                                accept=".jpg,.JPG,.jpeg,.JPEG,.png,.PNG,.gif,.GIF,.bmp,.BMP,.svg,.SVG,.webp,.WEBP"
+                            />
+                            </>
+                        : "Chargement..."}
+                        <div className="input-wrapper">
+                        <label><h1>Arrière Plan</h1></label>
                         <div className="upload-wrapper">
                             {backdropProgress === 100
                                 ? <>
-                                    <p className="image-name">{inputs.backdropName.length
-                                        ? inputs.backdropName
-                                        : "Aucune image"
-                                    }</p>
-                                    <label htmlFor="fileinput-backdrop" className="icon-addfile"></label>
                                     <input
                                         onChange={(e) => handleUpload(e, setBackdropProgress, "backdrop")}
                                         className="fileinput"
@@ -293,23 +279,18 @@ const ModificationPage = () => {
                 </div>
 
                 <div className="input-wrapper ">
-                    <label>Acteurs*</label>
+                    <label><h1>Acteur</h1></label>
                     <div className="tiles-wrapper">
                         {/*ACTOR ADD TILE*/}
                         <div className="add-tile">
                             <div className="add-tile-link"
                                  onClick={() => setActorForm(true)}>
-                                <div className="add-tile-body">
-                                    <p>+</p>
-                                </div>
+
                             </div>
                             <div className={`add-tile-form ${actorForm ? "" : "disabled"}`}>
-                                <div
-                                    className={`close ${actorProgress !== 100 ? "disabled" : ""}`}
-                                    onClick={resetActorForm}>X
-                                </div>
+
                                 <div className="input-wrapper">
-                                    <label>Nom</label>
+                                    <label><h1>Nom</h1></label>
                                     <input
                                         type="text"
                                         className="add-tile-input"
@@ -321,7 +302,7 @@ const ModificationPage = () => {
                                     />
                                 </div>
                                 <div className="input-wrapper">
-                                    <label>Rôle joué</label>
+                                    <label><h1>Rôle joué</h1></label>
                                     <input
                                         type="text"
                                         className="add-tile-input"
@@ -333,15 +314,10 @@ const ModificationPage = () => {
                                     />
                                 </div>
                                 <div className="input-wrapper">
-                                    <label>Photo</label>
+                                    <label><h1>Photo</h1></label>
                                     <div className="upload-wrapper">
                                         {actorProgress === 100
                                             ? <>
-                                                <p className="image-name">{actorData.photoName.length
-                                                    ? actorData.photoName
-                                                    : "Aucune image"
-                                                }</p>
-                                                <label htmlFor="fileinput" className="icon-addfile"></label>
                                                 <input
                                                     onChange={(e) => handleUpload(e, setActorProgress, "actor")}
                                                     className="fileinput"
@@ -355,7 +331,7 @@ const ModificationPage = () => {
                                     </div>
 
                                 </div>
-                                <input type="button" disabled={actorProgress === 100 ? false : true} value="valider"
+                                <input className="favorite styled" type="button" disabled={actorProgress === 100 ? false : true} value="valider"
                                        onClick={handleActorSubmit}/>
                             </div>
                         </div>
@@ -363,23 +339,18 @@ const ModificationPage = () => {
                     </div>
                 </div>
                 <div className="input-wrapper ">
-                    <label>Films Similaires*</label>
+                    <label><h1>Film Similaire</h1></label>
                     <div className="tiles-wrapper">
                         {/*SIMILAR MOVIES ADD TILE*/}
                         <div className="add-tile">
                             <div className="add-tile-link"
                                  onClick={() => setMovieForm(true)}>
-                                <div className="add-tile-body">
-                                    <p>+</p>
-                                </div>
+                               
                             </div>
                             <div className={`add-tile-form ${movieForm ? "" : "disabled"}`}>
-                                <div
-                                    className={`close ${movieProgress !== 100 ? "disabled" : ""}`}
-                                    onClick={resetMovieForm}>X
-                                </div>
+
                                 <div className="input-wrapper">
-                                    <label>Titre</label>
+                                    <label><h1>Titre</h1></label>
                                     <input
                                         type="text"
                                         className="add-tile-input"
@@ -390,7 +361,7 @@ const ModificationPage = () => {
                                     />
                                 </div>
                                 <div className="input-wrapper">
-                                    <label>Date de sortie*</label>
+                                    <label><h1>Date de sortie</h1></label>
                                     <input
                                         type="date"
                                         className="add-tile-input"
@@ -402,15 +373,10 @@ const ModificationPage = () => {
                                     />
                                 </div>
                                 <div className="input-wrapper">
-                                    <label>Affiche</label>
+                                    <label><h1>Affiche</h1></label>
                                     <div className="upload-wrapper">
                                         {movieProgress === 100
                                             ? <>
-                                                <p className="image-name">{movieData.posterName.length
-                                                    ? movieData.posterName
-                                                    : "Aucune image"
-                                                }</p>
-                                                <label htmlFor="movieUpload" className="icon-addfile"></label>
                                                 <input
                                                     onChange={(e) => handleUpload(e, setMovieProgress, "movie")}
                                                     className="fileinput"
@@ -424,16 +390,18 @@ const ModificationPage = () => {
                                     </div>
 
                                 </div>
-                                <input type="button" disabled={movieProgress === 100 ? false : true} value="valider"
+                                <input className="favorite styled" type="button" disabled={movieProgress === 100 ? false : true} value="valider"
                                        onClick={handleMovieSubmit}/>
                             </div>
                         </div>
 
                     </div>
                 </div>
-                <button type="submit">Modifier</button>
+                <button className="favorite styled" type="submit">Modifier</button>
+                </div>
             </form>}
-        </section>
+        
+        </>
     )
 }
 export default ModificationPage;

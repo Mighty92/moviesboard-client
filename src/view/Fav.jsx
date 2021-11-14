@@ -4,8 +4,9 @@ import Navigation from '../components/Navigation';
 import EventService from '../services/EventService';
 import StorageService from '../services/StorageService';
 import ListMovies from '../components/ListMovies';
+import Home from './Home';
 
-const Fav = (props) => {
+const Fav = () => {
     const [myFav, setMyFav] = useState(null);
 
     let likedIds = StorageService.myLocalStorage();
@@ -24,8 +25,6 @@ const Fav = (props) => {
         })
     }, [])
 
-    const {film, id} = props
-
     return (
         <div className="favoris">
             <Logo/>
@@ -34,7 +33,7 @@ const Fav = (props) => {
             <h1>Évènements sauvegardés</h1>
             <main>
                 <div>
-                    {myFav && myFav.length !== 0 && myFav.map((film) => <ListMovies film={film.id} key={film.id} id={film.id}  />)}
+                    {myFav && myFav.length !== 0 && myFav.map((film) => <ListMovies film={film.id} key={film.id}  />)}
                 </div>
             </main>
         </div>

@@ -11,9 +11,9 @@ const Navigation = () => {
             <NavLink exact to="/ajout-film" activeClassName="nav-active">
                 Ajout de film
             </NavLink>
-            <NavLink exact to="/modificationPage" activeClassName="nav-active">
+            {/* <NavLink exact to="/modificationPage" activeClassName="nav-active">
                 Page de modification
-            </NavLink>
+            </NavLink> */}
             {/* <NavLink exact to="/favoris" activeClassName="nav-active">
                 Favoris
             </NavLink> */}

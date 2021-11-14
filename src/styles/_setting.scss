@@ -2,8 +2,8 @@
 $font-1: "Poppins", sans-serif;
 
 $color-1: #d6c41b;
-$color-2: #cecccc;
-$color-3: #606061;
+$color-2: #279ccab9;
+$color-3: white;
 $color-4: rgb(32, 35, 42);
 
 * {
@@ -19,7 +19,7 @@ body {
   max-width: 100%;
   font-family: $font-1;
   color: $color-3;
-  background-color: $color-2;
+  background-color: $color-4;
 
 }
 li {

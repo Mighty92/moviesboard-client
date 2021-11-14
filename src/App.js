@@ -16,7 +16,7 @@ const App = () => {
           <Route path="/ajout-film" exact component={AjoutFilm}/>
           <Route path="/details" exact component={Details}/>
           <Route path="/modificationPage/:id" exact component={ModificationPage}/> 
-          {/* <Route path="/favoris" exact component={Fav}/>  */}
+          {/* <Route path="/favoris/:id" exact component={Fav}/>  */}
 
           <Route component={NotFound}/>
         </Switch>

@@ -4,7 +4,6 @@ import Navigation from "../components/Navigation";
 import {uploadImage, addMovie, getCategories} from "../components/utils/crud";
 import Categorie from "../components/Categorie"
 
-const backdropPlaceholder = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.10wallpaper.com%2Ffr%2Flist%2FBeautiful_Nature_Scenery_4K_HD_Photo.html&psig=AOvVaw3TszFs97KeGsudUQMZk23b&ust=1636675673321000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCJD51ZKCj_QCFQAAAAAdAAAAABAD"
 const posterPlaceholder = "https://firebasestorage.googleapis.com/v0/b/my-movies-list-23f59.appspot.com/o/images%2Fdefault-placeholder.png?alt=media&token=c6082f11-8efe-42cc-b43d-c7b23b75f9b0"
 const avatarPlaceholder = "https://firebasestorage.googleapis.com/v0/b/my-movies-list-23f59.appspot.com/o/images%2Fsbcf-default-avatar.png?alt=media&token=d9863a53-4983-47d4-9ce7-434a9b5c9268"
 
@@ -25,8 +24,8 @@ const AjoutFilm = () => {
     const [inputs, setInputs] = useState({
         title: "",
         description: "",
-        poster: posterPlaceholder,
-        backdrop: backdropPlaceholder,
+        poster: "",
+        backdrop: "",
         release_date: "",
         posterName: "",
         backdropName: ""
@@ -37,10 +36,10 @@ const AjoutFilm = () => {
     const [movieForm, setMovieForm] = useState(false);
     const [movieData, setMovieData] = useState(defaultMovieData);
 
-    const [actorProgress, setActorProgress] = useState(100);
-    const [movieProgress, setMovieProgress] = useState(100);
-    const [posterProgress, setPosterProgress] = useState(100);
-    const [backdropProgress, setBackdropProgress] = useState(100);
+    const [actorB, setActorB] = useState(100);
+    const [movieB, setMoviePB] = useState(100);
+    const [posterB, setPosterB] = useState(100);
+    const [backdropB, setBackdropB] = useState(100);
 
     const [actorsList, setActorsList] = useState([])
     const [moviesList, setMoviesList] = useState([])
@@ -49,8 +48,8 @@ const AjoutFilm = () => {
     const [allCategories, setAllCategories] = useState([])
 
 
-    const [tmdbMovies, setTmdbMovies] = useState([])
-    const [tmdbMoviesTitles, setTmdbMoviesTitles] = useState([])
+    const [dbMovies, setDbMovies] = useState([])
+    const [moviesTitles, setMoviesTitles] = useState([])
     const [selectedTitle, setSelectedTitle] = useState("")
 
     useEffect(() => {
@@ -58,10 +57,10 @@ const AjoutFilm = () => {
     }, [])
 
     useEffect(() => {
-        setTmdbMoviesTitles(tmdbMovies.map(movie => movie.title))
-    }, [tmdbMovies])
+        setMoviesTitles(dbMovies.map(movie => movie.title))
+    }, [dbMovies])
 
-    // HANDLE ADD MOVIE SUBMIT
+    // Gérer la soumission du film ajouter
     const handleSubmit = (e) => {
         const data = inputs;
         e.preventDefault()
@@ -87,7 +86,7 @@ const AjoutFilm = () => {
         window.location.href = "/"
     }
 
-// HANDLE ACTOR FORM
+// Gérer le formulaire acteur
     const handleActorSubmit = (e) => {
         const actorsValid = actorsList.filter(item => item.name === actorData.name)
         if (actorsValid.length) {
@@ -107,7 +106,7 @@ const AjoutFilm = () => {
             alert("Veuillez remplir chacun des champs")
         }
     }
-// HANDLE SIMILAR MOVIES FORM
+// Gérer le formulaire des films similaires
     const handleMovieSubmit = (e) => {
         const moviesValid = moviesList.filter(item => item.name === movieData.name)
         if (moviesValid.length) {
@@ -166,7 +165,7 @@ const AjoutFilm = () => {
             }
         }
     }
-// HANDLE ACTOR FORM INPUTS CHANGE
+// Gérer la liste des acteurs
     const handleActorChange = (e) => {
         setActorData({
             ...actorData,
@@ -175,7 +174,7 @@ const AjoutFilm = () => {
     }
 
 
-    const handleMovieChange = (e) => {
+    const handleMovie = (e) => {
         setMovieData({
             ...movieData,
             [e.target.name]: e.target.value
@@ -200,123 +199,113 @@ const AjoutFilm = () => {
 
     return (
         <>
-        <Logo/>
-        <Navigation/>
-        <hr className="menu"/>
-        <h1 className="menuTitle">Ajoutez votre film favoris</h1>
-
-        <form id={"form"} onSubmit={handleSubmit}>
-            <div class="form-container">
-                <div className="input-group">
-                    <div className="input-wrapper">
-                    <label><h1>Titre*</h1></label>
+            <Logo/>
+            <Navigation/>
+            <hr className="menu"/>
+            <h1 className="menuTitle">Ajoutez votre film favoris</h1>
+            <form id={"form"} onSubmit={handleSubmit}>
+                {/* Formulaire d'ajout */}
+                <div className="form-container">
+                    <div className="input-group">
+                        <div className="input-wrapper">
+                        <label><h1>Titre*</h1></label>
                         <input type="text"
-                               required={true}
-                               name="title"
-                               onChange={handleInputsChange}
-                               value={inputs.title}/>
+                            required={true}
+                            name="title"
+                            onChange={handleInputsChange}
+                            value={inputs.title}
+                        />
                     </div>
                     <div className="input-wrapper">
                         <label><h1>Date de sortie*</h1></label>
                         <input type="date"
-                               required={true}
-                               name="release_date"
-                               onChange={handleInputsChange}
-                               value={inputs.release_date}/>
+                            required={true}
+                            name="release_date"
+                            onChange={handleInputsChange}
+                            value={inputs.release_date}
+                        />
                     </div>
                 </div>
-
                 <div className="input-wrapper">
-    
                     <Categorie categoriesList={allCategories}
-                                    actualCategories={categoriesList}
-                                    setCategories={setCategoriesList}
-                                   />
+                        actualCategories={categoriesList}
+                        setCategories={setCategoriesList}
+                    />
                 </div>
-
-                {/*DESCRIPTION INPUT*/}
                 <div className="input-wrapper">
                     <label><h1>Description*</h1></label>
                     <textarea className="home-textarea" name="description" id="" cols="30" rows="10"
-                              required={true}
-                              placeholder="Bruce Wayne, alias Batman, est un super-héros de fiction appartenant à l'univers de DC Comics. ... Batman n'est en effet qu'un simple humain qui a décidé de lutter contre le crime après avoir vu ses parents se faire abattre par un voleur dans une ruelle de Gotham City, la ville où se déroulent la plupart de ses aventures."
-                              onChange={handleInputsChange}
-                              value={inputs.description}></textarea>
+                        required={true}
+                        placeholder="Bruce Wayne, alias Batman, est un super-héros de fiction appartenant à l'univers de DC Comics. ... Batman n'est en effet qu'un simple humain qui a décidé de lutter contre le crime après avoir vu ses parents se faire abattre par un voleur dans une ruelle de Gotham City, la ville où se déroulent la plupart de ses aventures."
+                        onChange={handleInputsChange}
+                        value={inputs.description}>
+                    </textarea>
                 </div>
-
-                {/*POSTER + BACKDROP INPUT GROUP*/}
                 <div className="input-group">
                     <div className="input-wrapper">
                         <label><h1>Affiche*</h1></label>
-                                    <input
-                                        onChange={(e) => handleUpload(e, setPosterProgress, "poster")}
-                                        className="fileinput"
-                                        type="file"
-                                        name="image"
-                                        id="fileinput-poster"
-                                        accept=".jpg,.JPG,.jpeg,.JPEG,.png,.PNG,.gif,.GIF,.bmp,.BMP,.svg,.SVG,.webp,.WEBP"
-                                    />
-
+                        <input
+                            onChange={(e) => handleUpload(e, setPosterB, "poster")}
+                            className="fileinput"
+                            type="file"
+                            name="image"
+                            id="fileinput-poster"
+                            accept=".jpg,.JPG,.jpeg,.JPEG,.png,.PNG,.gif,.GIF,.bmp,.BMP,.svg,.SVG,.webp,.WEBP"
+                        />
                     </div>
                     <div className="input-wrapper">
                         <label><h1>Arrière plan*</h1></label>
-                                    <input
-                                        onChange={(e) => handleUpload(e, setBackdropProgress, "backdrop")}
-                                        className="fileinput"
-                                        type="file"
-                                        name="image"
-                                        id="fileinput-backdrop"
-                                        accept=".jpg,.JPG,.jpeg,.JPEG,.png,.PNG,.gif,.GIF,.bmp,.BMP,.svg,.SVG,.webp,.WEBP"
-                                    />
-                                        </div>
-                                    </div>
-                                <div><h1>Acteur</h1></div>
-                                <div className="input-wrapper">
-                                    <label><h1>Nom de l'acteur*</h1></label>
-                                    <input
-                                        type="text"
-                                        className="add-tile-input"
-                                        placeholder="Ecrire ici..."
-                                        name="name"
-                                        value={actorData.name}
-                                        onChange={handleActorChange}
-
-                                    />
-                                </div>
-                                <div className="input-wrapper">
-                                    <label><h1>Rôle de l'acteur*</h1></label>
-                                    <input
-                                        type="text"
-                                        className="add-tile-input"
-                                        placeholder="Ecrire ici..."
-                                        name="character"
-                                        value={actorData.character}
-                                        onChange={handleActorChange}
-
-                                    />
-                                </div>
-                                <div className="input-wrapper">
-                                    <label><h1>Photo</h1></label>
-
-                                                <input
-                                                    onChange={(e) => handleUpload(e, setActorProgress, "actor")}
-                                                    className="fileinput"
-                                                    type="file"
-                                                    name="photo"
-                                                    id="fileinput"
-                                                    accept=".jpg,.JPG,.jpeg,.JPEG,.png,.PNG,.gif,.GIF,.bmp,.BMP,.svg,.SVG,.webp,.WEBP"
-                                                />
-                                </div>
-                                <input className="favorite styled" type="button" disabled={actorProgress == 100 ? false : true} value="valider les acteurs"
-                                       onClick={handleActorSubmit}/>
-
+                            <input
+                                onChange={(e) => handleUpload(e, setBackdropB, "backdrop")}
+                                className="fileinput"
+                                type="file"
+                                name="image"
+                                id="fileinput-backdrop"
+                                accept=".jpg,.JPG,.jpeg,.JPEG,.png,.PNG,.gif,.GIF,.bmp,.BMP,.svg,.SVG,.webp,.WEBP"
+                            />
+                    </div>
+                </div>
+                <div><h1>Acteur</h1></div>
+                <div className="input-wrapper">
+                    <label><h1>Nom de l'acteur*</h1></label>
+                    <input
+                        type="text"
+                        className="add-tile-input"
+                        placeholder="Ecrire ici..."
+                        name="name"
+                        value={actorData.name}
+                        onChange={handleActorChange}
+                    />
+                </div>
+                <div className="input-wrapper">
+                    <label><h1>Rôle de l'acteur*</h1></label>
+                    <input
+                        type="text"
+                        className="add-tile-input"
+                        placeholder="Ecrire ici..."
+                        name="character"
+                        value={actorData.character}
+                        onChange={handleActorChange}
+                    />
+                </div>
+                <div className="input-wrapper">
+                    <label><h1>Photo</h1></label>
+                    <input
+                        onChange={(e) => handleUpload(e, setActorB, "actor")}
+                        className="fileinput"
+                        type="file"
+                        name="photo"
+                        id="fileinput"
+                        accept=".jpg,.JPG,.jpeg,.JPEG,.png,.PNG,.gif,.GIF,.bmp,.BMP,.svg,.SVG,.webp,.WEBP"
+                    />
+                </div>
+                <input className="favorite styled" type="button" disabled={actorB == 100 ? false : true} value="valider les acteurs"
+                    onClick={handleActorSubmit}
+                />
                 <div className="input-wrapper ">
                     <label><h1>Films Similaires</h1></label>
-                    <div className="tiles-wrapper">
-                        {/*SIMILAR MOVIES ADD TILE*/}
-                        <div className="add-tile">
-                            <div>
-
+                        <div className="tiles-wrapper">
+                            <div className="add-tile">
                                 <div className="input-wrapper">
                                     <label><h1>Titre*</h1></label>
                                     <input
@@ -325,7 +314,7 @@ const AjoutFilm = () => {
                                         placeholder="Ecrire ici..."
                                         name="title"
                                         value={movieData.title}
-                                        onChange={handleMovieChange}
+                                        onChange={handleMovie}
                                     />
                                 </div>
                                 <div className="input-wrapper">
@@ -336,29 +325,26 @@ const AjoutFilm = () => {
                                         placeholder="Ecrire ici..."
                                         name="release_date"
                                         value={movieData.release_date}
-                                        onChange={handleMovieChange}
-
+                                        onChange={handleMovie}
                                     />
                                 </div>
                                 <div className="input-wrapper">
                                     <label><h1>Affiche</h1></label>
-
-                                                <input
-                                        onChange={handleMovieChange}
+                                    <input
+                                        onChange={handleMovie}
                                         className="fileinput"
-                                                    type="file"
-                                                    name="poster"
-                                                    id="movieUpload"
-                                                    accept=".jpg,.JPG,.jpeg,.JPEG,.png,.PNG,.gif,.GIF,.bmp,.BMP,.svg,.SVG,.webp,.WEBP"
-                                                />
-
+                                        type="file"
+                                        name="poster"
+                                        id="movieUpload"
+                                        accept=".jpg,.JPG,.jpeg,.JPEG,.png,.PNG,.gif,.GIF,.bmp,.BMP,.svg,.SVG,.webp,.WEBP"
+                                    />
                                 </div>
-                                <input className="favorite styled" type="button" disabled={movieProgress == 100 ? false : true} value="valider les films similaires"
-                                       onClick={handleMovieSubmit}/>
+                                <input className="favorite styled" type="button" disabled={movieB == 100 ? false : true} value="valider les films similaires"
+                                    onClick={handleMovieSubmit}
+                                />
                             </div>
                         </div>
                     </div>
-                </div>
                 <button className="favorite styled" type="submit">Ajouter</button>
             </div>
         </form>

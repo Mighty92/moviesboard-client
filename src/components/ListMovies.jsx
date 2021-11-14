@@ -31,7 +31,7 @@ const ListMovies = (props) => {
         <>    
            
             <div className="menuItem">
-                    <h1>{film.title}</h1>
+                    <h1 className="montitre">{film.title}</h1>
                         <Link className='cards__item__link' to={{ pathname: "/details", search: `${id}` }}>
                             <figure>
                                 <img
@@ -46,16 +46,18 @@ const ListMovies = (props) => {
                             <h4 className='text'>{film.description}</h4>
                         </form>
                         <div>
+                            <div  className="mod">
 
                                 <Link to={"/modificationPage/" + film.id} >
                                 <button className="favorite styled">Modifier</button>
                                 </Link>
+                            </div>
                                               
                             <DeleteFilm id={film.id}/>
                         </div>
                     </li>
                     {/* <div className="button">
-                        <LikeButton id={id} />
+                        <LikeButton to={"/favoris/" + film.id} id={id} />
                     </div> */}
             </div>
             
